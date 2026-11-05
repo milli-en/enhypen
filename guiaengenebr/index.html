@@ -1,337 +1,113 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#17151b">
-  <title>ENGENE BR GUIDE ♥</title>
-  <style>
-    :root {
-      --bg: #f7f5f7;
-      --surface: #ffffff;
-      --ink: #28232b;
-      --muted: #77717b;
-      --accent: #8b6b86;
-      --accent-dark: #6e506a;
-      --line: #e9e3e9;
-      --dark: #17151b;
-      --radius: 18px;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--ink);
-      line-height: 1.6;
-    }
-    .hero {
-      width: 100%;
-      min-height: 230px;
-      background: #29232d url("cabecalho.png") center 40% / cover no-repeat;
-      display: flex;
-      align-items: end;
-      justify-content: center;
-      position: relative;
-      isolation: isolate;
-    }
-    .hero::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(15,12,17,.08), rgba(15,12,17,.55));
-      z-index: -1;
-    }
-    .hero-note {
-      color: white;
-      font-size: .78rem;
-      margin: 0 0 12px;
-      text-shadow: 0 1px 5px #000;
-    }
-    main {
-      width: min(920px, calc(100% - 32px));
-      margin: 0 auto;
-      padding: 38px 0 64px;
-    }
-    header { text-align: center; margin-bottom: 34px; }
-    h1 {
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(1.8rem, 5vw, 2.7rem);
-      line-height: 1.2;
-      font-weight: 500;
-      margin: 0 0 12px;
-      letter-spacing: -.03em;
-    }
-    .intro {
-      max-width: 650px;
-      margin: 0 auto;
-      color: var(--muted);
-      font-size: 1rem;
-    }
-    .section-card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: clamp(22px, 5vw, 38px);
-      box-shadow: 0 8px 28px rgba(38, 27, 39, .045);
-    }
-    .section-heading { text-align: center; margin-bottom: 22px; }
-    .section-heading h2 {
-      margin: 0 0 5px;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 1.8rem;
-      font-weight: 500;
-    }
-    .section-heading p { margin: 0; color: var(--muted); }
-    .enter-button, .primary-button {
-      border: 0;
-      border-radius: 999px;
-      background: var(--accent);
-      color: white;
-      padding: 13px 24px;
-      font-size: .98rem;
-      cursor: pointer;
-      transition: background .2s, transform .2s;
-    }
-    .enter-button:hover, .primary-button:hover {
-      background: var(--accent-dark);
-      transform: translateY(-1px);
-    }
-    .button-wrap { text-align: center; margin-top: 22px; }
-    .lock-icon { margin-right: 7px; }
-    .tutorials { display: none; margin-top: 26px; }
-    .tutorials.visible { display: block; }
-    .tutorial-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
-      margin-top: 20px;
-    }
-    .tutorial-card {
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 22px;
-      background: #fff;
-    }
-    .tutorial-number {
-      color: var(--accent);
-      font-size: .75rem;
-      font-weight: 700;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-    }
-    .tutorial-card h3 {
-      margin: 8px 0 8px;
-      font-size: 1.08rem;
-      line-height: 1.35;
-    }
-    .tutorial-card p { margin: 0; color: var(--muted); font-size: .92rem; }
-    .placeholder {
-      margin-top: 14px;
-      border-radius: 10px;
-      background: #f7f3f7;
-      padding: 12px;
-      color: #756b76;
-      font-size: .85rem;
-    }
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      z-index: 10;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      background: rgba(19, 16, 21, .62);
-    }
-    .modal-backdrop.open { display: flex; }
-    .modal {
-      width: min(420px, 100%);
-      background: white;
-      border-radius: 18px;
-      padding: 28px;
-      box-shadow: 0 20px 70px rgba(0,0,0,.25);
-      position: relative;
-    }
-    .modal h2 {
-      font-family: Georgia, "Times New Roman", serif;
-      font-weight: 500;
-      margin: 0 0 5px;
-      font-size: 1.65rem;
-    }
-    .modal p { color: var(--muted); margin: 0 0 18px; font-size: .93rem; }
-    .close-button {
-      position: absolute;
-      top: 12px;
-      right: 14px;
-      border: 0;
-      background: transparent;
-      font-size: 1.5rem;
-      color: var(--muted);
-      cursor: pointer;
-    }
-    label { display: block; font-size: .88rem; margin-bottom: 6px; }
-    input[type="password"] {
-      width: 100%;
-      border: 1px solid #dcd4dd;
-      border-radius: 10px;
-      padding: 12px 13px;
-      font-size: 1rem;
-      outline: none;
-    }
-    input[type="password"]:focus { border-color: var(--accent); box-shadow: 0 0 0 3px #8b6b8620; }
-    .modal .primary-button { width: 100%; margin-top: 14px; }
-    .message { min-height: 22px; margin-top: 10px; font-size: .85rem; color: #a13e52; }
-    footer {
-      text-align: center;
-      color: var(--muted);
-      font-size: .82rem;
-      padding: 24px 12px 32px;
-    }
-    @media (max-width: 620px) {
-      .hero { min-height: 175px; }
-      main { width: min(100% - 22px, 920px); padding-top: 28px; }
-      .tutorial-grid { grid-template-columns: 1fr; }
-      .section-card { padding: 23px 18px; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#17151b">
+<title>Universo ENGENE BR ♥</title>
+<style>
+:root{--bg:#f7f5f7;--surface:#fff;--ink:#28232b;--muted:#77717b;--accent:#8b6b86;--accent-dark:#6e506a;--line:#e9e3e9;--radius:18px;font-family:Arial,Helvetica,sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);line-height:1.6}
+.hero{width:100%;min-height:230px;background:#29232d url("cabecalho.png") center 40%/cover no-repeat;display:flex;align-items:end;justify-content:center;position:relative;isolation:isolate}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,12,17,.08),rgba(15,12,17,.55));z-index:-1}
+main{width:min(920px,calc(100% - 32px));margin:0 auto;padding:38px 0 64px}header{text-align:center;margin-bottom:34px}
+h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(1.8rem,5vw,2.7rem);line-height:1.2;font-weight:500;margin:0 0 12px;letter-spacing:-.03em}
+.intro{max-width:650px;margin:0 auto;color:var(--muted);font-size:1rem}
+.section-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:clamp(22px,5vw,38px);box-shadow:0 8px 28px rgba(38,27,39,.045)}
+.section-heading{text-align:center;margin-bottom:22px}.section-heading h2{margin:0 0 5px;font-family:Georgia,"Times New Roman",serif;font-size:1.8rem;font-weight:500}.section-heading p{margin:0;color:var(--muted)}
+.enter-button,.primary-button{border:0;border-radius:999px;background:var(--accent);color:white;padding:13px 24px;font-size:.98rem;cursor:pointer;transition:background .2s,transform .2s}
+.enter-button:hover,.primary-button:hover{background:var(--accent-dark);transform:translateY(-1px)}.enter-button:disabled,.primary-button:disabled{opacity:.65;cursor:wait;transform:none}
+.button-wrap{text-align:center;margin-top:22px}.lock-icon{margin-right:7px}.tutorials{display:none;margin-top:30px}.tutorials.visible{display:block}
+.tutorial-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:20px}
+.tutorial-card{border:1px solid var(--line);border-radius:14px;padding:22px;background:#fff}
+.tutorial-number{color:var(--accent);font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.tutorial-card h3{margin:8px 0;font-size:1.08rem;line-height:1.35}.tutorial-card p{margin:0;color:var(--muted);font-size:.92rem}
+.modal-backdrop{position:fixed;inset:0;z-index:10;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(19,16,21,.62)}.modal-backdrop.open{display:flex}
+.modal{width:min(420px,100%);background:white;border-radius:18px;padding:28px;box-shadow:0 20px 70px rgba(0,0,0,.25);position:relative}
+.modal h2{font-family:Georgia,"Times New Roman",serif;font-weight:500;margin:0 0 5px;font-size:1.65rem}.modal p{color:var(--muted);margin:0 0 18px;font-size:.93rem}
+.close-button{position:absolute;top:12px;right:14px;border:0;background:transparent;font-size:1.5rem;color:var(--muted);cursor:pointer}
+label{display:block;font-size:.88rem;margin-bottom:6px}input[type=password]{width:100%;border:1px solid #dcd4dd;border-radius:10px;padding:12px 13px;font-size:1rem;outline:none}
+input[type=password]:focus{border-color:var(--accent);box-shadow:0 0 0 3px #8b6b8620}.modal .primary-button{width:100%;margin-top:14px}
+.message{min-height:22px;margin-top:10px;font-size:.85rem;color:#a13e52}
+footer{text-align:center;color:var(--muted);font-size:.82rem;padding:24px 12px 32px}
+@media(max-width:620px){.hero{min-height:175px}main{width:min(100% - 22px,920px);padding-top:28px}.tutorial-grid{grid-template-columns:1fr}.section-card{padding:23px 18px}}
+</style>
 </head>
 <body>
-  <div class="hero" role="img" aria-label="Imagem de cabeçalho do ENHYPEN">
-  </div>
+<div class="hero" role="img" aria-label="Imagem de cabeçalho do ENHYPEN"></div>
+<main>
+<header>
+<h1>Universo ENGENE BR</h1>
+<p class="intro">Um espaço feito de ENGENEs para ENGENEs, com tutoriais, guias, dicas e informações para compartilhar conhecimento e ajudar nossa comunidade.</p>
+</header>
+<section class="section-card" aria-labelledby="area-title">
+<div class="section-heading"><h2 id="area-title">Área engene</h2><p>Entre para acessar os conteúdos exclusivos.</p></div>
+<div class="button-wrap"><button class="enter-button" id="open-login" type="button"><span class="lock-icon" aria-hidden="true">🔒</span> Acessar área engene</button></div>
+<div class="tutorials" id="tutorials" aria-live="polite">
+<div class="section-heading"><h2>Conteúdos da área engene</h2><p>Escolha o conteúdo que deseja acessar.</p></div>
+<div class="tutorial-grid" id="tutorial-grid"></div>
+</div>
+</section>
+</main>
+<footer>Universo ENGENE BR ♥</footer>
+<div class="modal-backdrop" id="login-modal" role="dialog" aria-modal="true" aria-labelledby="login-title">
+<div class="modal">
+<button class="close-button" id="close-login" type="button" aria-label="Fechar">×</button>
+<h2 id="login-title">Bem-vinde, ENGENE!</h2><p>Digite a senha para acessar a área restrita.</p>
+<form id="login-form">
+<label for="password">Senha de acesso</label>
+<input id="password" name="password" type="password" autocomplete="current-password" required>
+<button class="primary-button" id="submit-login" type="submit">Entrar</button>
+<div class="message" id="login-message" role="status" aria-live="polite"></div>
+</form>
+</div>
+</div>
+<script>
+const AUTH_ENDPOINT = "https://universo-engene-login.milenifrodrigues.workers.dev/content";
+const modal=document.getElementById("login-modal");
+const openButton=document.getElementById("open-login");
+const closeButton=document.getElementById("close-login");
+const form=document.getElementById("login-form");
+const passwordInput=document.getElementById("password");
+const message=document.getElementById("login-message");
+const tutorials=document.getElementById("tutorials");
+const tutorialGrid=document.getElementById("tutorial-grid");
+const submitButton=document.getElementById("submit-login");
 
-  <main>
-    <header>
-      <h1>ENGENE BR GUIDE</h1>
-      <p class="intro">
-        Um espaço feito para compartilhar dicas e ajudar ENGENEs.
-      </p>
-    </header>
+function openModal(){modal.classList.add("open");message.textContent="";passwordInput.value="";setTimeout(()=>passwordInput.focus(),50)}
+function closeModal(){modal.classList.remove("open")}
+function showTutorials(items){
+  tutorialGrid.replaceChildren();
+  items.forEach((item,index)=>{
+    const card=document.createElement("article");card.className="tutorial-card";
+    const number=document.createElement("span");number.className="tutorial-number";number.textContent=`Conteúdo ${String(index+1).padStart(2,"0")}`;
+    const title=document.createElement("h3");title.textContent=item.title||"Conteúdo";
+    const description=document.createElement("p");description.textContent=item.description||"";
+    card.append(number,title,description);tutorialGrid.appendChild(card);
+  });
+  tutorials.classList.add("visible");tutorials.scrollIntoView({behavior:"smooth",block:"start"});
+}
+openButton.addEventListener("click",openModal);
+closeButton.addEventListener("click",closeModal);
+modal.addEventListener("click",event=>{if(event.target===modal)closeModal()});
+document.addEventListener("keydown",event=>{if(event.key==="Escape")closeModal()});
 
-    <section class="section-card" aria-labelledby="area-title">
-      <div class="section-heading">
-        <h2 id="area-title">Área engene</h2>
-        <p>Entre para acessar os conteúdos.</p>
-      </div>
-      <div class="button-wrap">
-        <button class="enter-button" id="open-login" type="button">
-          <span class="lock-icon" aria-hidden="true">🔒</span> Acessar área engene
-        </button>
-      </div>
-
-      <div class="tutorials" id="tutorials">
-        <div class="section-heading">
-          <h2>Escolha um tutorial</h2>
-          <p>O conteúdo será organizado em etapas para facilitar o acompanhamento.</p>
-        </div>
-        <div class="tutorial-grid">
-          <article class="tutorial-card">
-            <span class="tutorial-number">Tutorial 01</span>
-            <h3>Como criar e-mails temporários e fazer as contas no aplicativo</h3>
-            <p>Passo a passo com explicações, imagens e vídeos.</p>
-            <div class="placeholder">O conteúdo deste tutorial será adicionado aqui.</div>
-          </article>
-          <article class="tutorial-card">
-            <span class="tutorial-number">Tutorial 02</span>
-            <h3>Como clonar o aplicativo</h3>
-            <p>Instruções organizadas em etapas, com textos e vídeos.</p>
-            <div class="placeholder">O conteúdo deste tutorial será adicionado aqui.</div>
-          </article>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>Tutoriais de engene para engene ♥</footer>
-
-  <div class="modal-backdrop" id="login-modal" role="dialog" aria-modal="true" aria-labelledby="login-title">
-    <div class="modal">
-      <button class="close-button" id="close-login" type="button" aria-label="Fechar">×</button>
-      <h2 id="login-title">Bem-vinde, ENGENE!</h2>
-      <p>Digite a senha para acessar a área restrita.</p>
-      <form id="login-form">
-        <label for="password">Senha de acesso</label>
-        <input id="password" name="password" type="password" autocomplete="current-password" required>
-        <button class="primary-button" type="submit">Entrar</button>
-        <div class="message" id="login-message" aria-live="polite"></div>
-      </form>
-    </div>
-  </div>
-
-  <script>
-    /*
-      CONFIGURAÇÃO FUTURA:
-      Quando configurarmos a proteção real, coloque aqui o endereço do Cloudflare Worker.
-      Exemplo: const AUTH_ENDPOINT = "https://seu-worker.seu-subdominio.workers.dev/verify";
-
-      Não coloque a senha diretamente neste arquivo HTML: como o site usa GitHub Pages,
-      qualquer senha escrita no JavaScript pode ser descoberta pelo visitante.
-    */
-    const AUTH_ENDPOINT = "";
-
-    const modal = document.getElementById("login-modal");
-    const openButton = document.getElementById("open-login");
-    const closeButton = document.getElementById("close-login");
-    const form = document.getElementById("login-form");
-    const passwordInput = document.getElementById("password");
-    const message = document.getElementById("login-message");
-    const tutorials = document.getElementById("tutorials");
-
-    function openModal() {
-      modal.classList.add("open");
-      message.textContent = "";
-      passwordInput.value = "";
-      setTimeout(() => passwordInput.focus(), 50);
-    }
-    function closeModal() {
-      modal.classList.remove("open");
-    }
-
-    openButton.addEventListener("click", openModal);
-    closeButton.addEventListener("click", closeModal);
-    modal.addEventListener("click", (event) => {
-      if (event.target === modal) closeModal();
+form.addEventListener("submit",async event=>{
+  event.preventDefault();message.textContent="";
+  submitButton.disabled=true;submitButton.textContent="Verificando...";
+  try{
+    const response=await fetch(AUTH_ENDPOINT,{
+      method:"POST",headers:{"Content-Type":"application/json"},cache:"no-store",
+      body:JSON.stringify({password:passwordInput.value})
     });
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") closeModal();
-    });
-
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
-      message.textContent = "";
-
-      if (!AUTH_ENDPOINT) {
-        message.textContent = "A proteção por senha ainda será configurada. Por enquanto, esta é uma prévia do site.";
-        return;
-      }
-
-      const submitButton = form.querySelector("button[type='submit']");
-      submitButton.disabled = true;
-      submitButton.textContent = "Verificando...";
-
-      try {
-        const response = await fetch(AUTH_ENDPOINT, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ password: passwordInput.value })
-        });
-        const result = await response.json();
-
-        if (response.ok && result.authorized === true) {
-          closeModal();
-          tutorials.classList.add("visible");
-          document.getElementById("area-title").scrollIntoView({ behavior: "smooth", block: "start" });
-        } else {
-          message.textContent = "Senha incorreta. Tente novamente.";
-        }
-      } catch (error) {
-        message.textContent = "Não foi possível verificar a senha. Tente novamente mais tarde.";
-      } finally {
-        submitButton.disabled = false;
-        submitButton.textContent = "Entrar";
-      }
-    });
-  </script>
+    const result=await response.json().catch(()=>({}));
+    if(response.ok&&result.authorized===true&&Array.isArray(result.tutorials)){
+      closeModal();showTutorials(result.tutorials);passwordInput.value="";
+    }else if(response.status===401){message.textContent="Senha incorreta. Tente novamente."}
+    else{message.textContent=result.error||"Não foi possível liberar o acesso. Tente novamente."}
+  }catch(error){message.textContent="Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente."}
+  finally{submitButton.disabled=false;submitButton.textContent="Entrar"}
+});
+</script>
 </body>
 </html>

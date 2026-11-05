@@ -17,7 +17,7 @@ h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(1.8rem,5vw,2.7rem
 .section-heading{text-align:center;margin-bottom:22px}.section-heading h2{margin:0 0 5px;font-family:Georgia,"Times New Roman",serif;font-size:1.8rem;font-weight:500}.section-heading p{margin:0;color:var(--muted)}
 .enter-button,.primary-button{border:0;border-radius:999px;background:var(--accent);color:white;padding:13px 24px;font-size:.98rem;cursor:pointer;transition:background .2s,transform .2s}
 .enter-button:hover,.primary-button:hover{background:var(--accent-dark);transform:translateY(-1px)}.enter-button:disabled,.primary-button:disabled{opacity:.65;cursor:wait;transform:none}
-.button-wrap{text-align:center;margin-top:22px}.lock-icon{margin-right:7px}.tutorials{display:none;margin-top:30px}.tutorials.visible{display:block}
+.button-wrap{text-align:center;margin-top:22px}.lock-icon{margin-right:7px}.tutorials{display:none;margin-top:0}.tutorials.visible{display:block}
 .tutorial-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:20px}
 .tutorial-card{border:1px solid var(--line);border-radius:14px;padding:22px;background:#fff}
 .tutorial-number{color:var(--accent);font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
@@ -38,15 +38,26 @@ footer{text-align:center;color:var(--muted);font-size:.82rem;padding:24px 12px 3
 <main>
 <header>
 <h1>Universo ENGENE BR</h1>
-<p class="intro">Um espaço feito por uma ENGENE para ENGENEs, com tutoriais, guias e informações para compartilhar conhecimento e ajudar nossa comunidade.</p>
+<p class="intro">Feito por uma ENGENE para outras ENGENEs, com tutoriais, guias e informações para compartilhar conhecimento e ajudar nossa comunidade.</p>
 </header>
 <section class="section-card" aria-labelledby="area-title">
-<div class="section-heading"><h2 id="area-title">Área engene</h2><p>Entre para acessar os conteúdos exclusivos.</p></div>
-<div class="button-wrap"><button class="enter-button" id="open-login" type="button"><span class="lock-icon" aria-hidden="true">🔒</span> Acessar área engene</button></div>
-<div class="tutorials" id="tutorials" aria-live="polite">
-<div class="section-heading"><h2>Conteúdos da área engene</h2><p>Escolha o conteúdo que deseja acessar.</p></div>
-<div class="tutorial-grid" id="tutorial-grid"></div>
-</div>
+  <div id="access-panel">
+    <div class="section-heading">
+      <h2 id="area-title">Área engene</h2>
+      <p>Entre para acessar os conteúdos privados.</p>
+    </div>
+    <div class="button-wrap">
+      <button class="enter-button" id="open-login" type="button"><span class="lock-icon" aria-hidden="true">🔒</span> Acessar área engene</button>
+    </div>
+  </div>
+
+  <div class="tutorials" id="tutorials" aria-live="polite">
+    <div class="section-heading">
+      <h2>Por favor, não compartilhar o conteúdo abaixo em nenhum lugar!</h2>
+      <p>Escolha o conteúdo que deseja acessar.</p>
+    </div>
+    <div class="tutorial-grid" id="tutorial-grid"></div>
+  </div>
 </section>
 </main>
 <footer>Universo ENGENE BR </footer>
@@ -70,6 +81,7 @@ const closeButton=document.getElementById("close-login");
 const form=document.getElementById("login-form");
 const passwordInput=document.getElementById("password");
 const message=document.getElementById("login-message");
+const accessPanel=document.getElementById("access-panel");
 const tutorials=document.getElementById("tutorials");
 const tutorialGrid=document.getElementById("tutorial-grid");
 const submitButton=document.getElementById("submit-login");
@@ -85,7 +97,11 @@ function showTutorials(items){
     const description=document.createElement("p");description.textContent=item.description||"";
     card.append(number,title,description);tutorialGrid.appendChild(card);
   });
-  tutorials.classList.add("visible");tutorials.scrollIntoView({behavior:"smooth",block:"start"});
+  // Esconde o convite de acesso depois do login. Ao recarregar a página,
+  // o navegador reinicia o estado e o painel volta a aparecer.
+  accessPanel.hidden=true;
+  tutorials.classList.add("visible");
+  tutorials.scrollIntoView({behavior:"smooth",block:"start"});
 }
 openButton.addEventListener("click",openModal);
 closeButton.addEventListener("click",closeModal);

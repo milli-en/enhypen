@@ -61,6 +61,7 @@ footer{text-align:center;color:var(--muted);font-size:.82rem;padding:24px 12px 3
 <p>Escolha o conteúdo que deseja acessar:</p>
     </div>
     <div class="tutorial-grid" id="tutorial-grid"></div>
+    <div id="tutorial-content" style="display:none; margin-top:30px;"></div>
   </div>
 </section>
 </main>
@@ -92,7 +93,65 @@ const submitButton=document.getElementById("submit-login");
 
 function openModal(){modal.classList.add("open");message.textContent="";passwordInput.value="";setTimeout(()=>passwordInput.focus(),50)}
 function closeModal(){modal.classList.remove("open")}
-function showTutorials(items){
+function 
+function showTutorials(items) {
+  tutorialGrid.replaceChildren();
+
+  const contentArea = document.getElementById("tutorial-content");
+
+  contentArea.style.display = "none";
+  contentArea.replaceChildren();
+
+  items.forEach((item, index) => {
+    const card = document.createElement("article");
+    card.className = "tutorial-card";
+
+    const number = document.createElement("span");
+    number.className = "tutorial-number";
+    number.textContent = `Conteúdo ${String(index + 1).padStart(2, "0")}`;
+
+    const title = document.createElement("h3");
+    title.textContent = item.title || "Conteúdo";
+
+    const description = document.createElement("p");
+    description.textContent = item.description || "";
+
+    card.append(number, title, description);
+
+    if (item.content && item.content.trim()) {
+      const button = document.createElement("button");
+      button.className = "primary-button";
+      button.textContent = "Ler tutorial";
+      button.style.marginTop = "15px";
+
+      button.addEventListener("click", () => {
+        contentArea.innerHTML = item.content;
+        contentArea.style.display = "block";
+        contentArea.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      });
+
+      card.appendChild(button);
+    } else {
+      const status = document.createElement("p");
+      status.textContent = "Em preparação";
+      status.style.marginTop = "15px";
+      card.appendChild(status);
+    }
+
+    tutorialGrid.appendChild(card);
+  });
+
+  accessPanel.hidden = true;
+  tutorials.classList.add("visible");
+  tutorials.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+}
+{
   tutorialGrid.replaceChildren();
   items.forEach((item,index)=>{
     const card=document.createElement("article");card.className="tutorial-card";

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#17151b">
-<title>Universo ENGENE BR </title>
+<title>Universo ENGENE BR</title>
 <style>
 :root{--bg:#f7f5f7;--surface:#fff;--ink:#28232b;--muted:#77717b;--accent:#8b6b86;--accent-dark:#6e506a;--line:#e9e3e9;--radius:18px;font-family:Arial,Helvetica,sans-serif}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);line-height:1.6}
@@ -22,6 +22,13 @@ h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(1.8rem,5vw,2.7rem
 .tutorial-card{border:1px solid var(--line);border-radius:14px;padding:22px;background:#fff}
 .tutorial-number{color:var(--accent);font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
 .tutorial-card h3{margin:8px 0;font-size:1.08rem;line-height:1.35}.tutorial-card p{margin:0;color:var(--muted);font-size:.92rem}
+.tutorial-card .primary-button{margin-top:15px}
+#tutorial-content{display:none;margin-top:30px;padding:clamp(20px,4vw,32px);background:#fff;border:1px solid var(--line);border-radius:14px;overflow-wrap:anywhere}
+#tutorial-content h2,#tutorial-content h3{font-family:Georgia,"Times New Roman",serif;font-weight:500}
+#tutorial-content h3{margin-top:24px}
+#tutorial-content p{margin:0 0 16px}
+#tutorial-content li{margin-bottom:8px}
+#tutorial-content a{color:var(--accent-dark)}
 .modal-backdrop{position:fixed;inset:0;z-index:10;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(19,16,21,.62)}.modal-backdrop.open{display:flex}
 .modal{width:min(420px,100%);background:white;border-radius:18px;padding:28px;box-shadow:0 20px 70px rgba(0,0,0,.25);position:relative}
 .modal h2{font-family:Georgia,"Times New Roman",serif;font-weight:500;margin:0 0 5px;font-size:1.65rem}.modal p{color:var(--muted);margin:0 0 18px;font-size:.93rem}
@@ -54,53 +61,60 @@ footer{text-align:center;color:var(--muted);font-size:.82rem;padding:24px 12px 3
   <div class="tutorials" id="tutorials" aria-live="polite">
     <div class="section-heading">
       <h2>As informações abaixo são exclusivas para ENGENEs. Não torne este conteúdo público.</h2>
-      <p style="margin-bottom: 30px;">
-  Favor não compartilhem, divulguem ou publiquem este conteúdo em redes sociais, grupos públicos ou qualquer outro espaço externo.
-</p>
-
-<p>Escolha o conteúdo que deseja acessar:</p>
+      <p style="margin-bottom:30px">Favor não compartilhem, divulguem ou publiquem este conteúdo em redes sociais, grupos públicos ou qualquer outro espaço externo.</p>
+      <p>Escolha o conteúdo que deseja acessar:</p>
     </div>
     <div class="tutorial-grid" id="tutorial-grid"></div>
-    <div id="tutorial-content" style="display:none; margin-top:30px;"></div>
+    <div id="tutorial-content"></div>
   </div>
 </section>
 </main>
 <footer>Feito com carinho para ENGENEs.<br>Fan-made, não afiliado com a BELIFT LAB ou HYBE.</footer>
+
 <div class="modal-backdrop" id="login-modal" role="dialog" aria-modal="true" aria-labelledby="login-title">
-<div class="modal">
-<button class="close-button" id="close-login" type="button" aria-label="Fechar">×</button>
-<h2 id="login-title">Bem-vinde, ENGENE!</h2><p>Digite a senha para acessar a área restrita.</p>
-<form id="login-form">
-<label for="password">Senha de acesso</label>
-<input id="password" name="password" type="password" autocomplete="current-password" required>
-<button class="primary-button" id="submit-login" type="submit">Entrar</button>
-<div class="message" id="login-message" role="status" aria-live="polite"></div>
-</form>
+  <div class="modal">
+    <button class="close-button" id="close-login" type="button" aria-label="Fechar">×</button>
+    <h2 id="login-title">Bem-vinde, ENGENE!</h2>
+    <p>Digite a senha para acessar a área restrita.</p>
+    <form id="login-form">
+      <label for="password">Senha de acesso</label>
+      <input id="password" name="password" type="password" autocomplete="current-password" required>
+      <button class="primary-button" id="submit-login" type="submit">Entrar</button>
+      <div class="message" id="login-message" role="status" aria-live="polite"></div>
+    </form>
+  </div>
 </div>
-</div>
+
 <script>
 const AUTH_ENDPOINT = "https://universo-engene-login.milenifrodrigues.workers.dev/content";
-const modal=document.getElementById("login-modal");
-const openButton=document.getElementById("open-login");
-const closeButton=document.getElementById("close-login");
-const form=document.getElementById("login-form");
-const passwordInput=document.getElementById("password");
-const message=document.getElementById("login-message");
-const accessPanel=document.getElementById("access-panel");
-const tutorials=document.getElementById("tutorials");
-const tutorialGrid=document.getElementById("tutorial-grid");
-const submitButton=document.getElementById("submit-login");
 
-function openModal(){modal.classList.add("open");message.textContent="";passwordInput.value="";setTimeout(()=>passwordInput.focus(),50)}
-function closeModal(){modal.classList.remove("open")}
-function 
+const modal = document.getElementById("login-modal");
+const openButton = document.getElementById("open-login");
+const closeButton = document.getElementById("close-login");
+const form = document.getElementById("login-form");
+const passwordInput = document.getElementById("password");
+const message = document.getElementById("login-message");
+const accessPanel = document.getElementById("access-panel");
+const tutorials = document.getElementById("tutorials");
+const tutorialGrid = document.getElementById("tutorial-grid");
+const contentArea = document.getElementById("tutorial-content");
+const submitButton = document.getElementById("submit-login");
+
+function openModal() {
+  modal.classList.add("open");
+  message.textContent = "";
+  passwordInput.value = "";
+  setTimeout(() => passwordInput.focus(), 50);
+}
+
+function closeModal() {
+  modal.classList.remove("open");
+}
+
 function showTutorials(items) {
   tutorialGrid.replaceChildren();
-
-  const contentArea = document.getElementById("tutorial-content");
-
-  contentArea.style.display = "none";
   contentArea.replaceChildren();
+  contentArea.style.display = "none";
 
   items.forEach((item, index) => {
     const card = document.createElement("article");
@@ -118,26 +132,23 @@ function showTutorials(items) {
 
     card.append(number, title, description);
 
-    if (item.content && item.content.trim()) {
+    if (typeof item.content === "string" && item.content.trim()) {
       const button = document.createElement("button");
+      button.type = "button";
       button.className = "primary-button";
       button.textContent = "Ler tutorial";
-      button.style.marginTop = "15px";
 
       button.addEventListener("click", () => {
         contentArea.innerHTML = item.content;
         contentArea.style.display = "block";
-        contentArea.scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
+        contentArea.scrollIntoView({ behavior: "smooth", block: "start" });
       });
 
       card.appendChild(button);
     } else {
       const status = document.createElement("p");
       status.textContent = "Em preparação";
-      status.style.marginTop = "15px";
+      status.style.marginTop = "14px";
       card.appendChild(status);
     }
 
@@ -146,46 +157,51 @@ function showTutorials(items) {
 
   accessPanel.hidden = true;
   tutorials.classList.add("visible");
-  tutorials.scrollIntoView({
-    behavior: "smooth",
-    block: "start"
-  });
+  tutorials.scrollIntoView({ behavior: "smooth", block: "start" });
 }
-{
-  tutorialGrid.replaceChildren();
-  items.forEach((item,index)=>{
-    const card=document.createElement("article");card.className="tutorial-card";
-    const number=document.createElement("span");number.className="tutorial-number";number.textContent=`Conteúdo ${String(index+1).padStart(2,"0")}`;
-    const title=document.createElement("h3");title.textContent=item.title||"Conteúdo";
-    const description=document.createElement("p");description.textContent=item.description||"";
-    card.append(number,title,description);tutorialGrid.appendChild(card);
-  });
-  // Esconde o convite de acesso depois do login. Ao recarregar a página,
-  // o navegador reinicia o estado e o painel volta a aparecer.
-  accessPanel.hidden=true;
-  tutorials.classList.add("visible");
-  tutorials.scrollIntoView({behavior:"smooth",block:"start"});
-}
-openButton.addEventListener("click",openModal);
-closeButton.addEventListener("click",closeModal);
-modal.addEventListener("click",event=>{if(event.target===modal)closeModal()});
-document.addEventListener("keydown",event=>{if(event.key==="Escape")closeModal()});
 
-form.addEventListener("submit",async event=>{
-  event.preventDefault();message.textContent="";
-  submitButton.disabled=true;submitButton.textContent="Verificando...";
-  try{
-    const response=await fetch(AUTH_ENDPOINT,{
-      method:"POST",headers:{"Content-Type":"application/json"},cache:"no-store",
-      body:JSON.stringify({password:passwordInput.value})
+openButton.addEventListener("click", openModal);
+closeButton.addEventListener("click", closeModal);
+
+modal.addEventListener("click", event => {
+  if (event.target === modal) closeModal();
+});
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") closeModal();
+});
+
+form.addEventListener("submit", async event => {
+  event.preventDefault();
+  message.textContent = "";
+  submitButton.disabled = true;
+  submitButton.textContent = "Verificando...";
+
+  try {
+    const response = await fetch(AUTH_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      cache: "no-store",
+      body: JSON.stringify({ password: passwordInput.value })
     });
-    const result=await response.json().catch(()=>({}));
-    if(response.ok&&result.authorized===true&&Array.isArray(result.tutorials)){
-      closeModal();showTutorials(result.tutorials);passwordInput.value="";
-    }else if(response.status===401){message.textContent="Senha incorreta. Tente novamente."}
-    else{message.textContent=result.error||"Não foi possível liberar o acesso. Tente novamente."}
-  }catch(error){message.textContent="Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente."}
-  finally{submitButton.disabled=false;submitButton.textContent="Entrar"}
+
+    const result = await response.json().catch(() => ({}));
+
+    if (response.ok && result.authorized === true && Array.isArray(result.tutorials)) {
+      closeModal();
+      showTutorials(result.tutorials);
+      passwordInput.value = "";
+    } else if (response.status === 401) {
+      message.textContent = "Senha incorreta. Tente novamente.";
+    } else {
+      message.textContent = result.error || "Não foi possível liberar o acesso. Tente novamente.";
+    }
+  } catch (error) {
+    message.textContent = "Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.";
+  } finally {
+    submitButton.disabled = false;
+    submitButton.textContent = "Entrar";
+  }
 });
 </script>
 </body>
